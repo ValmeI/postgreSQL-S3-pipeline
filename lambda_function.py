@@ -32,10 +32,10 @@ def lambda_handler(event, context):  # pylint: disable=unused-argument
             
             print("Decoded Kinesis Payload:")
             payload_json = json.loads(payload_text)
-            # For testing purposes, should be removed for production
-            payload_json["data"]["client_id"] = 10614
-            payload_json["data"]["id"] = 151079
-            payload_json["data"]["created_on"] = "2020-06-25"
+            # For testing purposes, should be removed for production          
+            #payload_json["data"]["client_id"] = 10614
+            #payload_json["data"]["id"] = 151079
+            #payload_json["data"]["created_on"] = "2020-06-25"
             print(json.dumps(payload_json, indent=2))
 
             if not is_loan_insert_event(payload_json):
