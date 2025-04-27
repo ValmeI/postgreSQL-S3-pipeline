@@ -10,3 +10,5 @@ lamda use docker not regular to avoid layers size limits
 
 
 all files are non root of the project but as the project grows we should seperate to different directories for better organization
+
+prints are use as cloudwarch already add datetime etc when the logs are sent, but for bigger projects we should use logging, like loguru, as we could define debug log level etc for easier debugging and development

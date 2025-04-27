@@ -37,9 +37,9 @@ def get_days_since_last_late_payment(engine, client_id: int):
     return pd.read_sql_query(query, engine)
 
 
-def get_profit_in_last_90_days(engine, client_id: int):
-    now = datetime.now(timezone.utc)
-    date_90_days_ago = (now - timedelta(days=90)).date()
+def get_profit_in_last_90_days(engine, client_id: int, loan_created_on: str):
+    loan_created_on_date = datetime.strptime(loan_created_on, "%Y-%m-%d").date()
+    date_90_days_ago = loan_created_on_date - timedelta(days=90)
     query = f"""
         WITH recent_loans AS (
             SELECT id, amount
@@ -52,8 +52,6 @@ def get_profit_in_last_90_days(engine, client_id: int):
             FROM payment
             WHERE loan_id IN (SELECT id FROM recent_loans)
         )
-        SELECT
-            COALESCE((SELECT SUM(interest) FROM recent_payments), 0) AS sum_interest,
-            COALESCE((SELECT SUM(amount) FROM recent_loans), 0) AS sum_loan
+        SELECT COALESCE(SUM(interest), 0) AS sum_interest FROM recent_payments
     """
     return pd.read_sql_query(query, engine)

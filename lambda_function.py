@@ -22,16 +22,22 @@ def is_loan_insert_event(payload_json: dict) -> bool:
 def lambda_handler(event, context):  # pylint: disable=unused-argument
     current_time = datetime.datetime.now(datetime.UTC).isoformat()
     print(f"Current UTC time: {current_time}")
-    print(f"Received event: {event}")
+    # Left in for debugging purposes
+    print(f"Received event: \n{event}")
 
     for record in event["Records"]:
         try:
             payload_base64 = record["kinesis"]["data"]
             payload_text = base64.b64decode(payload_base64).decode("utf-8")
+            
             print("Decoded Kinesis Payload:")
-            print(payload_text)
-
             payload_json = json.loads(payload_text)
+            # For testing purposes, should be removed for production
+            payload_json["data"]["client_id"] = 10614
+            payload_json["data"]["id"] = 151079
+            payload_json["data"]["created_on"] = "2020-06-25"
+            print(json.dumps(payload_json, indent=2))
+
             if not is_loan_insert_event(payload_json):
                 print(
                     f"""
