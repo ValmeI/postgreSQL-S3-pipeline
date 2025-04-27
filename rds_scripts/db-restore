@@ -1,0 +1,2 @@
+pg_restore -h crm-db.cl08q4mw20jc.eu-north-1.rds.amazonaws.com -U postgres -d mydb -j 4 -v /Users/valme/git/postgreSQL-S3-pipeline/source_data/de_test_task_db
+# Took 2039 seconds

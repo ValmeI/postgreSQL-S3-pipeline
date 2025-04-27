@@ -1,0 +1,20 @@
+{
+    "Records": [
+        {
+            "kinesis": {
+                "kinesisSchemaVersion": "1.0",
+                "partitionKey": "public.loan",
+                "sequenceNumber": "49662734045763355802261189152074843493899767632466280450",
+                "data": "ewoJImRhdGEiOgl7CgkJImFtb3VudCI6CTEwMDAsCgkJImNsaWVudF9pZCI6CTExMzg0OCwKCQkiY3JlYXRlZF9vbiI6CSIyMDI1LTA0LTI3IiwKCQkiZHVyYXRpb24iOgkzMCwKCQkiaWQiOgkxNjcyMTUsCgkJIm1hdHVyZWRfb24iOgkiMjAyNC0wMS0wMSIsCgkJInN0YXR1cyI6CSJhY3RpdmUiLAoJCSJ1cGRhdGVkX29uIjoJIjIwMjUtMDQtMjciCgl9LAoJIm1ldGFkYXRhIjoJewoJCSJ0aW1lc3RhbXAiOgkiMjAyNS0wNC0yN1QxMjo0ODowMi4zMzY1OTBaIiwKCQkicmVjb3JkLXR5cGUiOgkiZGF0YSIsCgkJIm9wZXJhdGlvbiI6CSJpbnNlcnQiLAoJCSJwYXJ0aXRpb24ta2V5LXR5cGUiOgkic2NoZW1hLXRhYmxlIiwKCQkic2NoZW1hLW5hbWUiOgkicHVibGljIiwKCQkidGFibGUtbmFtZSI6CSJsb2FuIiwKCQkidHJhbnNhY3Rpb24taWQiOgkyNjI0NDYKCX0KfQ==",
+                "approximateArrivalTimestamp": 1745758082.391
+            },
+            "eventSource": "aws:kinesis",
+            "eventVersion": "1.0",
+            "eventID": "shardId-000000000000:49662734045763355802261189152074843493899767632466280450",
+            "eventName": "aws:kinesis:record",
+            "invokeIdentityArn": "arn:aws:iam::334461571106:role/service-role/crm-transformation-role-73jrtzb8",
+            "awsRegion": "eu-north-1",
+            "eventSourceARN": "arn:aws:kinesis:eu-north-1:334461571106:stream/crm-kinesis-data-streams"
+        }
+    ]
+}
