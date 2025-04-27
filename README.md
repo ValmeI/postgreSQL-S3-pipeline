@@ -9,6 +9,7 @@ Some specific design choices and considerations:
 - **Data Format**: JSON is used in S3, but for production, Parquet is recommended due to its efficiency for analytics and downstream processing.
 - **Project Structure**: All code is kept at the project root for simplicity, but as the codebase grows, refactoring into logical directories is recommended for maintainability.
 - **Logging**: Print statements suffice for this prototype since CloudWatch logs include timestamps by default for Lambda. For production or larger projects, a robust logging framework (e.g., loguru) should be adopted to support debugging and log level management.
+- **CloudFormation**: ????
 
 This approach demonstrates practical engineering tradeoffs, balancing delivery speed and clarity for the purposes of this assignment.
 
