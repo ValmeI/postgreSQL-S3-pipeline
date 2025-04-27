@@ -1,6 +1,6 @@
 import pandas as pd
 from config import settings
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 
 
