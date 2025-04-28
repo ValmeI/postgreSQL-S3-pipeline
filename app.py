@@ -1,6 +1,7 @@
 import json
 import datetime
 import base64
+from app_logging import logger
 from feature_engineering import calculate_features
 from s3_writer import write_to_s3
 from config import settings
@@ -19,27 +20,27 @@ def is_loan_insert_event(payload_json: dict) -> bool:
     return metadata.get("table-name") == "loan" and metadata.get("operation") == "insert"
 
 
-def lambda_handler(event, context):  # pylint: disable=unused-argument
+def handler(event, context):  # pylint: disable=unused-argument
     current_time = datetime.datetime.now(datetime.UTC).isoformat()
-    print(f"Current UTC time: {current_time}")
-    # Left in for debugging purposes
-    print(f"Received event: \n{event}")
+    logger.info(f"Current UTC time: {current_time}")
+    # Left in for debugging purposes from the CW logs
+    logger.info(f"Received event: \n{event}")
 
     for record in event["Records"]:
         try:
             payload_base64 = record["kinesis"]["data"]
             payload_text = base64.b64decode(payload_base64).decode("utf-8")
-            
-            print("Decoded Kinesis Payload:")
+
+            logger.info("Decoded Kinesis Payload:")
             payload_json = json.loads(payload_text)
-            # For testing purposes, should be removed for production          
-            #payload_json["data"]["client_id"] = 10614
-            #payload_json["data"]["id"] = 151079
-            #payload_json["data"]["created_on"] = "2020-06-25"
-            print(json.dumps(payload_json, indent=2))
+            # For testing purposes, should be removed for production
+            # payload_json["data"]["client_id"] = 10614
+            # payload_json["data"]["id"] = 151079
+            # payload_json["data"]["created_on"] = "2020-06-25"
+            logger.info(json.dumps(payload_json, indent=2))
 
             if not is_loan_insert_event(payload_json):
-                print(
+                logger.info(
                     f"""
                     Skipping event: not a loan/insert. 
                     Table: {payload_json.get('metadata', {}).get('table-name')}, 
@@ -48,8 +49,8 @@ def lambda_handler(event, context):  # pylint: disable=unused-argument
                 )
                 continue
             features = calculate_features(payload_json)
-            print("Engineered Features:")
-            print(json.dumps(features, indent=2))
+            logger.info("Engineered Features:")
+            logger.info(json.dumps(features, indent=2))
 
             s3_object_key = generate_s3_object_key(payload_json)
             write_to_s3(
@@ -59,7 +60,7 @@ def lambda_handler(event, context):  # pylint: disable=unused-argument
                 object_key=s3_object_key,
             )
         except json.JSONDecodeError:
-            print("Warning: Payload is not valid JSON")
+            logger.warning("Warning: Payload is not valid JSON")
 
     return {
         "statusCode": 200,
@@ -71,4 +72,4 @@ def lambda_handler(event, context):  # pylint: disable=unused-argument
 if __name__ == "__main__":
     with open("test-input/kinesis_test_input.json", "r", encoding="utf-8") as f:
         test_input = f.read().replace("'", '"')
-        lambda_handler(json.loads(test_input), None)
+        handler(json.loads(test_input), None)

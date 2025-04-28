@@ -14,11 +14,11 @@ This approach demonstrates practical engineering tradeoffs, balancing delivery s
 
 ## Architecture Diagram
 ```mermaid
-graph TD
-    A[PostgreSQL (RDS)] -->|CDC replication| B[AWS DMS]
-    B -->|Change events| C[Kinesis Data Stream]
-    C -->|Streaming records| D[Lambda Function]
-    D -->|Processed JSON| E[S3 Bucket]
+flowchart LR
+  A[RDS PostgreSQL] -->|WAL replication| B[DMS Replication]
+  B -->|Stream WAL changes| C[Kinesis Data Stream]
+  C -->|Trigger event| D[AWS Lambda Function]
+  D -->|Processed features| E[S3 Processed Bucket]
 ```
 
 ## Scalability

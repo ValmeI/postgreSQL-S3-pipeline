@@ -2,6 +2,7 @@ import json
 import boto3
 from config import settings
 from datetime import datetime, timezone
+from app_logging import logger
 
 
 def generate_s3_object_partition():
@@ -21,6 +22,6 @@ def write_to_s3(features: dict, bucket_name: str, bucket_folder_name: str, objec
         partition = generate_s3_object_partition()
         s3_key = f"{bucket_folder_name}/{partition}/{object_key}.json"
         s3.put_object(Bucket=bucket_name, Key=s3_key, Body=data)
-        print(f"Successfully wrote features to s3://{bucket_name}/{object_key}")
+        logger.info(f"Successfully wrote features to s3://{bucket_name}/{object_key}")
     except Exception as e:
-        print(f"Failed to write to S3: {e}")
+        logger.error(f"Failed to write to S3: {e}")
