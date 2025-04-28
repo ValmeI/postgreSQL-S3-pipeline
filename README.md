@@ -13,7 +13,6 @@ Some specific design choices and considerations:
 This approach demonstrates practical engineering tradeoffs, balancing delivery speed and clarity for the purposes of this assignment.
 
 ## Architecture Diagram
-
 ```mermaid
 graph TD
     A[PostgreSQL (RDS)] -->|CDC replication| B[AWS DMS]
