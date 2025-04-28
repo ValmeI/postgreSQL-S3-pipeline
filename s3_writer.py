@@ -15,7 +15,7 @@ def generate_s3_object_partition() -> str:
 
 def write_to_s3(features: dict, bucket_name: str, bucket_folder_name: str, object_key: str) -> None:
     try:
-        data = json.dumps(features, indent=2)
+        data = json.dumps(features)
         s3 = boto3.client(
             "s3", aws_access_key_id=settings.S3_ACCESS_KEY, aws_secret_access_key=settings.S3_ACCESS_SECRET
         )

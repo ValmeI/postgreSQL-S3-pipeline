@@ -12,6 +12,22 @@ Some specific design choices and considerations:
 
 This approach demonstrates practical engineering tradeoffs, balancing delivery speed and clarity for the purposes of this assignment.
 
+## Conclusion
+
+The requirement was to achieve an end-to-end latency of **strictly less than 1 second**.
+
+The current implementation **sometimes meets this target** (when Lambda is warm and DMS commits immediately), but **does not consistently stay under 1 second**.  
+Typical latency ranges between **1 and 2.5 seconds**.
+
+The main reasons are:
+- **DMS replication buffering** causing unpredictable small delays,
+- **Lambda cold starts** occasionally adding extra startup time,
+- **Minor S3 network variability**.
+
+### Summary
+This solution demonstrates the correct real-time flow, but **does not fully satisfy the strict <1 second requirement under all conditions**.
+
+
 ## Architecture Diagram
 ```mermaid
 flowchart LR
