@@ -8,11 +8,19 @@ Some specific design choices and considerations:
 - **Technology Selection**: DMS, Kinesis, Lambda and RDS are selected for their ease of integration and rapid setup. This enables fast prototyping and demonstration of end-to-end data flow.
 - **Data Format**: JSON is used in S3, but for production, Parquet is recommended due to its efficiency for analytics and downstream processing.
 - **Project Structure**: All code is kept at the project root for simplicity, but as the codebase grows, refactoring into logical directories is recommended for maintainability.
-- **Logging**: Print statements suffice for this prototype since CloudWatch logs include timestamps by default for Lambda. For production or larger projects, a robust logging framework (e.g., loguru) should be adopted to support debugging and log level management.
-- **CloudFormation**: ????
+- **CloudFormation**: Because of the time constraints, CloudFormation is not used.
 
 This approach demonstrates practical engineering tradeoffs, balancing delivery speed and clarity for the purposes of this assignment.
 
+## Architecture Diagram
+
+```mermaid
+graph TD
+    A[PostgreSQL (RDS)] -->|CDC replication| B[AWS DMS]
+    B -->|Change events| C[Kinesis Data Stream]
+    C -->|Streaming records| D[Lambda Function]
+    D -->|Processed JSON| E[S3 Bucket]
+```
 
 ## Scalability
 
@@ -38,10 +46,8 @@ This approach demonstrates practical engineering tradeoffs, balancing delivery s
    pip install -r requirements.txt
    ```
 2. Copy `.env.example` to `.env` and fill in your AWS/Postgres info.
-3. Test locally:
+3. Test locally with `test-input/kinesis_test_input.json`:
    ```bash
    python lambda_function.py
    ```
-   (Uses `test-input/kinesis_test_input.json` as example event)
-
-
+   
