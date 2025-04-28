@@ -17,7 +17,7 @@ This approach demonstrates practical engineering tradeoffs, balancing delivery s
 The requirement was to achieve an end-to-end latency of **strictly less than 1 second**.
 
 The current implementation **sometimes meets this target** (when Lambda is warm and DMS commits immediately), but **does not consistently stay under 1 second**.  
-Typical latency ranges between **1 and 2.5 seconds**.
+Typical latency ranges between **1 and 3 seconds**.
 
 The main reasons are:
 - **DMS replication buffering** causing unpredictable small delays,
