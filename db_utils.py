@@ -8,7 +8,7 @@ from app_logging import logger
 
 
 class Database_Utils:
-    def __init__(self):
+    def __init__(self) -> None:
         logger.info("Initializing Database connection...")
         db_url = (
             f"postgresql+psycopg2://{settings.PG_USER}:{settings.PG_PASSWORD}"
@@ -22,7 +22,7 @@ class Database_Utils:
         client_id: int,
         current_loan_id: int,
         current_created_on: str,
-    ):
+    ) -> pd.DataFrame:
         logger.info(
             f"Fetching client loans for client_id: {client_id}, current_loan_id: {current_loan_id}, current_created_on: {current_created_on}"
         )
@@ -35,7 +35,7 @@ class Database_Utils:
         logger.debug(f"Executing query: {query}")
         return pd.read_sql_query(query, self.engine)
 
-    def get_days_since_last_late_payment(self, client_id: int):
+    def get_days_since_last_late_payment(self, client_id: int) -> pd.DataFrame:
         logger.info(f"Fetching days since last late payment for client_id: {client_id}")
         query = f"""
             SELECT COALESCE((NOW()::date - MAX(payment.created_on)::date), 0) AS days_since_last_late_payment
@@ -46,7 +46,7 @@ class Database_Utils:
         logger.debug(f"Executing query: {query}")
         return pd.read_sql_query(query, self.engine)
 
-    def get_profit_in_last_90_days(self, client_id: int, loan_created_on: str):
+    def get_profit_in_last_90_days(self, client_id: int, loan_created_on: str) -> pd.DataFrame:
         loan_created_on_date = datetime.strptime(loan_created_on, "%Y-%m-%d").date()
         date_90_days_ago = loan_created_on_date - timedelta(days=90)
         logger.info(f"Fetching profit in last 90 days for client_id: {client_id}, loan_created_on: {loan_created_on}")

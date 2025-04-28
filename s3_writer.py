@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from app_logging import logger
 
 
-def generate_s3_object_partition():
+def generate_s3_object_partition() -> str:
     now = datetime.now(timezone.utc)
     year = now.year
     month = f"{now.month:02d}"
@@ -13,7 +13,7 @@ def generate_s3_object_partition():
     return f"{year}/{month}/{day}"
 
 
-def write_to_s3(features: dict, bucket_name: str, bucket_folder_name: str, object_key: str):
+def write_to_s3(features: dict, bucket_name: str, bucket_folder_name: str, object_key: str) -> None:
     try:
         data = json.dumps(features, indent=2)
         s3 = boto3.client(

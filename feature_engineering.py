@@ -3,7 +3,7 @@ from db_utils import Database_Utils
 from app_logging import logger
 
 
-def calc_paid_loans_count(loans_df):
+def calc_paid_loans_count(loans_df: pd.DataFrame) -> int:
     if loans_df.empty:
         return 0
     return (loans_df["status"] == "paid").sum()
